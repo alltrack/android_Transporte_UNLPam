@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".WelcomeActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="3dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".5">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="40dp"
+            android:text="Seleccione su sede"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnSantaRosa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_santa_rosa"
+            tools:layout_editor_absoluteX="144dp"
+            tools:layout_editor_absoluteY="426dp" />
+
+        <ImageButton
+            android:id="@+id/btnPico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_general_pico"
+            tools:layout_editor_absoluteX="116dp"
+            tools:layout_editor_absoluteY="89dp" />
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
