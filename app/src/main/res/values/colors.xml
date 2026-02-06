@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303f9f</color>
-    <color name="colorAccent">#ff4081</color>
-    <color name="darkGray">#777777</color>
-    <color name="colorPress">#4b4c4c</color>
-    <color name="Gray">#b0b0b0</color>
-    <color name="lightGray">#e8e7e5</color>
-    <color name="white">#ffffff</color>
-    <color name="DarkGreen">#00a000</color>
-    <color name="DarkRed">#a00000</color>
-    <color name="selected_option">#009688</color>
-    <color name="black">#000</color>
+    <color name="purple">#FF994887</color>
+    <color name="purple_200">#FFBE87B4</color>
+
+    <color name="teal">#FF00A27F</color>
+    <color name="teal_200">#FF68C0BD</color>
+
+    <color name="cyan">#FF2290C7</color>
+    <color name="cyan_200">#FF7DBFE6</color>
+
+    <color name="darkblue">#01579B</color>
+    <color name="darkblue_200">#0288D1</color>
+
+    <color name="blue">#FF2F5EDB</color>
+    <color name="blue_200">#FF8FA8F0</color>
+
+    <color name="green">#558B2F</color>
+    <color name="green_200">#9CCC65</color>
+
+    <color name="coral">#FFD85C76</color>
+    <color name="coral_200">#FFEE9491</color>
+
+    <color name="yellow">#FFA000</color>
+    <color name="yellow_200">#FFD54F</color>
+
+    <color name="red">#E53935</color>
+    <color name="red_200">#EF5350</color>
+
+    <color name="amount_neutral">#757575</color>  <!-- gris -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray">#373737</color>
+    <color name="gray_dark">#121212</color>
+
+    <color name="ti_stroke">#FFB0B0B0</color>
+    <color name="ti_hint">#FF808080</color>
 </resources>

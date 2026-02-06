@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Ícono con fondo circular -->
+        <View
+            android:id="@+id/icon_background"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_background_orange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_parada_img"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_bus_stop"
+            app:tint="@color/coral"
+            app:layout_constraintBottom_toBottomOf="@id/icon_background"
+            app:layout_constraintEnd_toEndOf="@id/icon_background"
+            app:layout_constraintStart_toStartOf="@id/icon_background"
+            app:layout_constraintTop_toTopOf="@id/icon_background"
+            tools:ignore="ContentDescription" />
+
+        <!-- Denominación -->
+        <TextView
+            android:id="@+id/item_parada_denominacion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon_background"
+            app:layout_constraintTop_toTopOf="@id/icon_background"
+            tools:text="UDEP" />
+
+        <!-- Dirección -->
+        <TextView
+            android:id="@+id/item_parada_direccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:textColor="#6B6B6B"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon_background"
+            app:layout_constraintTop_toBottomOf="@id/item_parada_denominacion"
+            tools:text="Calle 417 esq 452" />
+
+        <!-- Separador -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon_background" />
+
+        <!-- Días de la semana -->
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_dias"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:constraint_referenced_ids="item_parada_Lu,item_parada_Ma,item_parada_Mi,item_parada_Ju,item_parada_Vi,item_parada_Sa,item_parada_Do"
+            app:flow_horizontalGap="6dp"
+            app:flow_horizontalStyle="spread_inside"
+            app:flow_wrapMode="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <TextView
+            android:id="@+id/item_parada_Lu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/day_chip_background"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Lu"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/item_parada_Ma"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/day_chip_background"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Ma"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/item_parada_Mi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/day_chip_background"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Mi"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/item_parada_Ju"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/day_chip_background"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Ju"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/item_parada_Vi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/day_chip_background"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Vi"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/item_parada_Sa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/day_chip_background"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Sa"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/item_parada_Do"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/day_chip_background"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Do"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

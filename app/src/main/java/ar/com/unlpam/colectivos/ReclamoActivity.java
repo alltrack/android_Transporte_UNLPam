@@ -3,26 +3,13 @@ package ar.com.unlpam.colectivos;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.AlertDialog;
-import android.app.Application;
-import android.app.Dialog;
-import android.content.Context;
-
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import com.google.android.material.navigation.NavigationView;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,549 +17,477 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+
 import android.widget.ImageView;
-import android.widget.Spinner;
 
-import com.android.volley.AuthFailureError;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
 public class ReclamoActivity extends BaseActivity {
 
-    private Context ctx;
+    private static final String TAG = "ReclamoActivity";
 
-    private Spinner sp_Colectivos;
-    private Spinner sp_Conductor;
-    private Spinner sp_Estado;
+    // ViewModel
+    private ReclamoViewModel viewModel;
+
+    // UI
+    private AutoCompleteTextView sp_Colectivos;
+    private AutoCompleteTextView sp_Conductor;
+    private AutoCompleteTextView sp_Estado;
     private EditText txt_reclamo;
     private Button btn_add_foto;
     private Button btn_delete_foto;
     private Button btn_enviar;
+    private ImageView img_preview;
+    private MaterialCardView card_preview;
+
+    // Foto
     private Boolean isFoto = false;
     private Bitmap foto;
-    private ImageView img_preview;
-    private RunTimePermission runTimePermission;
-    private int colectivo_select = 0;
-    private int codePicture;
-    private Uri selectedImageUri;
+    private final int colectivo_select = 0;
 
-    private static final int SELECT_PICTURE = 1;
-    private static final int PICK_IMAGE = 2;
+    // Uri para la foto capturada
+    private Uri photoUri;
 
-
-    private String selectedImagePath;
-
-    private LayoutInflater inflater;
-
-    protected getBusTask GetBusTask;
+    // ActivityResultLaunchers modernos
+    private ActivityResultLauncher<Intent> pickImageLauncher;
+    private ActivityResultLauncher<Uri> takePictureLauncher;
+    private ActivityResultLauncher<String> cameraPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reclamo);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ctx = this.getApplicationContext();
+        viewModel = new ViewModelProvider(this).get(ReclamoViewModel.class);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setupUI();
+        setupActivityResultLaunchers();
+        setupSpinners();
+        setupButtons();
+        observeViewModel();
+
+        viewModel.fetchColectivos();
+    }
+
+    private void setupUI() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        txt_reclamo = (EditText) findViewById(R.id.txt_reclamo_mensaje);
-        sp_Colectivos = (Spinner) findViewById(R.id.sp_reclamo_colectivos);
-        sp_Estado = (Spinner) findViewById(R.id.sp_reclamo_estado);
-        sp_Conductor = (Spinner) findViewById(R.id.sp_conductor);
-        btn_delete_foto = (Button) findViewById(R.id.btn_delete_foto);
-        btn_add_foto = (Button) findViewById(R.id.btn_add_foto);
-        btn_enviar = (Button) findViewById(R.id.btn_enviar);
-        img_preview = (ImageView) findViewById(R.id.img_preview);
+        txt_reclamo = findViewById(R.id.txt_reclamo_mensaje);
+        sp_Colectivos = findViewById(R.id.sp_reclamo_colectivos);
+        sp_Estado = findViewById(R.id.sp_reclamo_estado);
+        sp_Conductor = findViewById(R.id.sp_conductor);
+        btn_delete_foto = findViewById(R.id.btn_delete_foto);
+        btn_add_foto = findViewById(R.id.btn_add_foto);
+        btn_enviar = findViewById(R.id.btn_enviar);
+        img_preview = findViewById(R.id.img_preview);
+        card_preview = findViewById(R.id.card_preview);
 
-        ArrayList<String> strEstados = new ArrayList<String>();
-        strEstados.add("Muy Bueno");
-        strEstados.add("Bueno");
-        strEstados.add("Malo");
+        card_preview.setVisibility(View.GONE);
+        btn_add_foto.setVisibility(View.VISIBLE);
+    }
 
-        ArrayAdapter<String> comboAdapter2;
-        comboAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, strEstados);
-
-        //Cargo el spinner con los datos
-        sp_Estado.setAdapter(comboAdapter2);
-
-        ArrayList<String> strEstadosConductor = new ArrayList<String>();
-        strEstadosConductor.add("Muy Bien");
-        strEstadosConductor.add("Bien");
-        strEstadosConductor.add("Mal");
-
-        ArrayAdapter<String> comboAdapter3;
-        comboAdapter3 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, strEstadosConductor);
-
-        //Cargo el spinner con los datos
-        sp_Conductor.setAdapter(comboAdapter3);
-
-
-        inflater = this.getLayoutInflater();
-
-        btn_delete_foto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btn_add_foto.setVisibility(View.VISIBLE);
-                btn_delete_foto.setVisibility(View.GONE);
-                img_preview.setVisibility(View.GONE);
-                isFoto = false;
-            }
-        });
-
-        btn_add_foto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                View dialogView = inflater.inflate(R.layout.dl_buttom_select, null);
-
-                AlertDialog.Builder alert = new AlertDialog.Builder( ReclamoActivity.this )
-                        .setNegativeButton( "Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d( "AlertDialog", "Negative" );
-                            }
-                        });
-                alert.setView(dialogView);
-
-                final AlertDialog alertDialog = alert.create();
-
-                alertDialog.show();
-
-                ImageButton btn_galery = (ImageButton) alertDialog.findViewById(R.id.btn_galery);
-                ImageButton btn_camera = (ImageButton) alertDialog.findViewById(R.id.btn_camera);
-
-                btn_galery.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        alertDialog.cancel();
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-
-                    }
-                });
-
-                btn_camera.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.cancel();
-
-                        runTimePermission = new RunTimePermission(ReclamoActivity.this);
-                        runTimePermission.requestPermission(new String[]{Manifest.permission.CAMERA,
-                                Manifest.permission.RECORD_AUDIO,
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        }, new RunTimePermission.RunTimePermissionListener() {
-
-                            @Override
-                            public void permissionGranted() {
-                                // First we need to check availability of play services
-                                startActivityForResult(new Intent(ctx,CameraActivity.class),PICK_IMAGE);
-
-
-                            }
-
-                            @Override
-                            public void permissionDenied() {
-
-                               // finish();
-                            }
-                        });
-                    }
-                });
-
-            }
-        });
-
-        btn_enviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = getString(R.string.RestApiHttps) + getString(R.string.setClaim);
-
-                VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        onConnectionFinished();
-                        String resultResponse = new String(response.data);
+    private void setupActivityResultLaunchers() {
+        // Launcher para seleccionar foto de galería
+        pickImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri selectedImageUri = result.getData().getData();
                         try {
-                            JSONObject result = new JSONObject(resultResponse);
-                            if(result.getString("resu").equalsIgnoreCase("1")){
-                                showMensajeDialog(R.drawable.emoji_ok,getString(R.string.messageSendClaim),getString(R.string.titleSendClaim));
-                            }
-                            else{
-                                showMensajeDialog(R.drawable.emoji_sorry,getString(R.string.messageErrorSendClaim),getString(R.string.titleErrorSendClaim));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            foto = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                            showPhoto();
+                        } catch (IOException e) {
+                            Log.e(TAG, "Error loading image: " + e.getMessage());
+                            showErrorDialog("Error cargando imagen");
                         }
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onConnectionFailed(error.toString());
-                        Log.i("Error", error.toString());
-                        error.printStackTrace();
+                }
+        );
+
+        // Launcher para permiso de cámara
+        cameraPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                isGranted -> {
+                    Log.d(TAG, "Camera permission result: " + isGranted);
+                    if (isGranted) {
+                        openSystemCamera();
+                    } else {
+                        Log.e(TAG, "Camera permission DENIED");
+                        showMensajeDialog(
+                                R.drawable.emoji_sorry,
+                                "Se necesita permiso de cámara para tomar fotos",
+                                "Permiso denegado"
+                        );
                     }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
+                }
+        );
 
-                        String email = getUserEmail();
-                        params.put("email", email);
-                        params.put("vehiculo", sp_Colectivos.getSelectedItem().toString());
-                        params.put("estado", sp_Estado.getSelectedItem().toString());
-                        params.put("reclamo", txt_reclamo.getText().toString());
-                        params.put("conductor", sp_Conductor.getSelectedItem().toString());
-                        //PARA JPG
-                        if(isFoto) {
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                            byte[] byteArray = stream.toByteArray();
-                            String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                            foto.recycle();
-
-                            params.put("file", encodedImage);
-                            params.put("ext", "jpg");
+// Launcher para capturar foto con cámara del sistema
+        takePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(),
+                success -> {
+                    Log.d(TAG, "Camera result - success: " + success + ", photoUri: " + photoUri);
+                    if (success && photoUri != null) {
+                        try {
+                            foto = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
+                            Log.d(TAG, "Photo loaded successfully");
+                            showPhoto();
+                        } catch (IOException e) {
+                            Log.e(TAG, "Error loading camera image", e);
+                            showErrorDialog("Error cargando foto");
                         }
-
-                        return params;
+                    } else {
+                        Log.w(TAG, "Camera was cancelled or failed");
                     }
+                }
+        );
 
 
-                };
-                onPreStartConnection();
-                addToQueue(multipartRequest);
 
+    }
+
+    private void setupSpinners() {
+        // AutoComplete de Estado del vehículo
+        String[] strEstados = {"Muy Bueno", "Bueno", "Malo"};
+        ArrayAdapter<String> adapterEstado = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                strEstados
+        );
+        sp_Estado.setAdapter(adapterEstado);
+
+        // AutoComplete de Conductor
+        String[] strEstadosConductor = {"Muy Bien", "Bien", "Mal"};
+        ArrayAdapter<String> adapterConductor = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                strEstadosConductor
+        );
+        sp_Conductor.setAdapter(adapterConductor);
+    }
+
+    private void setupButtons() {
+        btn_delete_foto.setOnClickListener(v -> {
+            card_preview.setVisibility(View.GONE);
+            btn_add_foto.setVisibility(View.VISIBLE);
+            isFoto = false;
+            if (foto != null && !foto.isRecycled()) {
+                foto.recycle();
+                foto = null;
             }
         });
+
+        btn_add_foto.setOnClickListener(v -> showPhotoSourceDialog());
+
+        btn_enviar.setOnClickListener(v -> enviarReclamo());
+    }
+
+    private void observeViewModel() {
+        viewModel.colectivos.observe(this, colectivos -> {
+            if (colectivos != null && !colectivos.isEmpty()) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_dropdown_item_1line,
+                        colectivos
+                );
+                sp_Colectivos.setAdapter(adapter);
+
+                // Seleccionar el primero por defecto
+                if (!colectivos.isEmpty()) {
+                    sp_Colectivos.setText(colectivos.get(colectivo_select), false);
+                }
+            }
+        });
+
+        viewModel.isLoading.observe(this, isLoading -> {
+            if (isLoading) {
+                showLoading();
+            } else {
+                hideLoading();
+            }
+        });
+
+        viewModel.error.observe(this, errorState -> {
+            if (errorState != null) {
+                showErrorDialog(errorState.message);
+            }
+        });
+    }
+
+    private void showPhotoSourceDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dl_button_select, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+        AlertDialog alertDialog = builder.create();
+
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        alertDialog.show();
+
+
+        View btn_galery = dialogView.findViewById(R.id.btn_galery);
+        View btn_camera = dialogView.findViewById(R.id.btn_camera);
+
+        if (btn_galery != null) {
+            btn_galery.setOnClickListener(v -> {
+                alertDialog.dismiss();
+                openGallery();
+            });
+        }
+
+        if (btn_camera != null) {
+            btn_camera.setOnClickListener(v -> {
+                alertDialog.dismiss();
+                requestCameraPermissionAndOpen();
+            });
+        }
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        pickImageLauncher.launch(Intent.createChooser(intent, "Seleccionar Imagen"));
+    }
+
+    private void requestCameraPermissionAndOpen() {
+        Log.d(TAG, "requestCameraPermissionAndOpen called");
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "Camera permission already granted");
+            openSystemCamera();
+        } else {
+            Log.d(TAG, "Requesting camera permission");
+            cameraPermissionLauncher.launch(Manifest.permission.CAMERA);
+        }
+    }
+
+    private void openSystemCamera() {
+        try {
+            Log.d(TAG, "openSystemCamera - START");
+
+            // Crear archivo para la foto
+            File photoFile = new File(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "reclamo_" + System.currentTimeMillis() + ".jpg"
+            );
+
+            Log.d(TAG, "Photo file created: " + photoFile.getAbsolutePath());
+
+            // Obtener Uri usando FileProvider
+            photoUri = FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".fileprovider",
+                    photoFile
+            );
+
+            Log.d(TAG, "Photo URI: " + photoUri);
+
+            // Lanzar cámara del sistema
+            takePictureLauncher.launch(photoUri);
+
+            Log.d(TAG, "Camera launcher executed");
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error opening camera", e);
+            showErrorDialog("Error abriendo cámara: " + e.getMessage());
+        }
+    }
+
+
+    private void showPhoto() {
+        card_preview.setVisibility(View.VISIBLE);
+        btn_add_foto.setVisibility(View.GONE);
+        img_preview.setImageBitmap(foto);
+        isFoto = true;
+    }
+
+    private void enviarReclamo() {
+        // Validaciones
+        if (sp_Colectivos.getText().toString().trim().isEmpty()) {
+            sp_Colectivos.setError("Seleccione un colectivo");
+            return;
+        }
+
+        if (sp_Estado.getText().toString().trim().isEmpty()) {
+            sp_Estado.setError("Seleccione el estado");
+            return;
+        }
+
+        if (sp_Conductor.getText().toString().trim().isEmpty()) {
+            sp_Conductor.setError("Seleccione el desempeño");
+            return;
+        }
+
+        if (txt_reclamo.getText().toString().trim().isEmpty()) {
+            txt_reclamo.setError("Ingrese un comentario");
+            return;
+        }
 
         onPreStartConnection();
-        GetBusTask = new getBusTask();
-        GetBusTask.execute((Void) null);
 
-    }
+        String url = getString(R.string.RestApiHttps) + getString(R.string.setClaim);
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save the user's current game state
-        savedInstanceState.putBoolean("isFoto", isFoto);
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(
+                Request.Method.POST,
+                url,
+                response -> {
+                    onConnectionFinished();
+                    handleReclamoResponse(response);
+                },
+                error -> {
+                    onConnectionFailed(error.toString());
+                    Log.e(TAG, "Error: " + error);
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
 
-        savedInstanceState.putInt("sp_colectivos_value", sp_Colectivos.getSelectedItemPosition());
-        savedInstanceState.putInt("sp_Conductor_value", sp_Conductor.getSelectedItemPosition());
-        savedInstanceState.putInt("sp_estado_value", sp_Estado.getSelectedItemPosition());
-        savedInstanceState.putString("txt_reclamo_value", txt_reclamo.getText().toString());
-        if(isFoto) {
-            savedInstanceState.putInt("codePicture", codePicture);
-            savedInstanceState.putString("selectedImagePath", selectedImagePath);
-            if (selectedImageUri != null && !selectedImageUri.equals(Uri.EMPTY))
-                savedInstanceState.putString("uri", selectedImageUri.toString());
-        }
+                params.put("email", getUserEmail());
+                params.put("vehiculo", sp_Colectivos.getText().toString());
+                params.put("estado", sp_Estado.getText().toString());
+                params.put("reclamo", txt_reclamo.getText().toString());
+                params.put("conductor", sp_Conductor.getText().toString());
 
-        super.onSaveInstanceState(savedInstanceState);
-    }
+                if (isFoto && foto != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        isFoto = savedInstanceState.getBoolean("isFoto");
-
-        selectedImagePath = savedInstanceState.getString("selectedImagePath");
-
-        if(isFoto) {
-            codePicture = savedInstanceState.getInt("codePicture");
-            if (codePicture == PICK_IMAGE) {
-                try {
-                    foto = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse("file://"+selectedImagePath));
-                    btn_add_foto.setVisibility(View.GONE);
-                    btn_delete_foto.setVisibility(View.VISIBLE);
-                    isFoto = true;
-
-                    img_preview.setImageBitmap(foto);
-                    img_preview.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    params.put("file", encodedImage);
+                    params.put("ext", "jpg");
                 }
 
+                return params;
             }
-            else  if (codePicture == SELECT_PICTURE) {
+        };
 
-                selectedImageUri = Uri.parse(savedInstanceState.getString("uri"));
+        addToQueue(multipartRequest);
+    }
 
-                try {
-                    foto = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                    btn_add_foto.setVisibility(View.GONE);
-                    btn_delete_foto.setVisibility(View.VISIBLE);
-
-                    img_preview.setImageBitmap(foto);
-                    img_preview.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private void handleReclamoResponse(NetworkResponse response) {
+        String resultResponse = new String(response.data);
+        try {
+            JSONObject result = new JSONObject(resultResponse);
+            if (result.getString("resu").equalsIgnoreCase("1")) {
+                showMensajeDialog(
+                        R.drawable.emoji_ok,
+                        getString(R.string.messageSendClaim),
+                        getString(R.string.titleSendClaim)
+                );
+            } else {
+                showMensajeDialog(
+                        R.drawable.emoji_sorry,
+                        getString(R.string.messageErrorSendClaim),
+                        getString(R.string.titleErrorSendClaim)
+                );
             }
-
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing response: " + e.getMessage());
         }
-
-        colectivo_select = savedInstanceState.getInt("sp_colectivos_value");
-
-        sp_Conductor.setSelection(savedInstanceState.getInt("sp_conductor_value"));
-        sp_Estado.setSelection(savedInstanceState.getInt("sp_estado_value"));
-        txt_reclamo.setText(savedInstanceState.getString("txt_reclamo_value"));
-
-
-
     }
 
-    @Override
-    public void showMensajeDialog(int emoji, String message, String title){
-
-        errorDialog = new androidx.appcompat.app.AlertDialog.Builder(this);
-        errorDialog
-                .setMessage(message)
-                .setTitle(title)
-                .setIcon(emoji)
-                .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        finish();
-                    }
-                });
-        androidx.appcompat.app.AlertDialog alertError = errorDialog.create();
-        alertError.show();
-    }
-
-    public String getUserEmail() {
-        AccountManager manager = AccountManager.get(ctx);
+    private String getUserEmail() {
+        AccountManager manager = AccountManager.get(this);
         Account[] accounts = manager.getAccountsByType("com.google");
         List<String> possibleEmails = new LinkedList<>();
+
         for (Account account : accounts) {
             possibleEmails.add(account.name);
         }
+
         if (!possibleEmails.isEmpty() && possibleEmails.get(0) != null) {
             return possibleEmails.get(0);
         }
         return "";
     }
 
-    //UPDATED
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            codePicture = requestCode;
-
-            if (requestCode == PICK_IMAGE) {
-                String PATH = data.getStringExtra("PATH");
-                String WHO = data.getStringExtra("WHO");
-
-
-                //OI FILE Manager
-                selectedImagePath = PATH;
-
-                try {
-                    foto = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse("file://"+selectedImagePath));
-                    btn_add_foto.setVisibility(View.GONE);
-                    btn_delete_foto.setVisibility(View.VISIBLE);
-                    isFoto = true;
-
-                    img_preview.setImageBitmap(foto);
-                    img_preview.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            else  if (requestCode == SELECT_PICTURE) {
-                selectedImageUri = data.getData();
-                try {
-                    foto = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                    btn_add_foto.setVisibility(View.GONE);
-                    btn_delete_foto.setVisibility(View.VISIBLE);
-                    isFoto = true;
-
-                    img_preview.setImageBitmap(foto);
-                    img_preview.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    //UPDATED!
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if(cursor!=null)
-        {
-            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        else return null;
-    }
-
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void showMensajeDialog(int emoji, String message, String title) {
+        if (isFinishing()) return;
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle(title)
+                .setIcon(emoji)
+                .setCancelable(false)
+                .setPositiveButton("Ok", (dialog, id) -> {
+                    dialog.cancel();
+                    finish();
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
 
-
-    //carga el combo de los colectivos.
-    private void uploadColectivos (JSONArray data){
-        ArrayList<String> strColectivos = new ArrayList<String>();
-        ArrayAdapter<String> comboAdapter;
-
-        for(int i = 0; i<data.length();i++){
-
-            try {
-                strColectivos.add(data.getJSONObject(i).getString("al"));
-            }
-            catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        //Implemento el adapter con el contexto, layout, listaFrutas
-        comboAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, strColectivos);
-        //Cargo el spinner con los datos
-        sp_Colectivos.setAdapter(comboAdapter);
-
-        if(colectivo_select != -1)
-            sp_Colectivos.setSelection(colectivo_select);
-    }
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(runTimePermission!=null){
-            runTimePermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-    }
-
-    private class getBusTask extends AsyncTask<Void, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String url = getString(R.string.RestApiHttps) + getString(R.string.getBusLite);
-            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(final String response) {
-                            try {
-                                uploadColectivos(new JSONArray(response));
-                                onConnectionFinished();
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            onConnectionFailed(error.toString());
-                        }
-                    }
-            ) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    SharedPreferences prefs = PreferenceManager
-                            .getDefaultSharedPreferences(ReclamoActivity.this);
-
-                    String city = prefs.getString("city", "");
-                    params.put("sede", city);
-                    return params;
-
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-
-                    SharedPreferences prefs = PreferenceManager
-                            .getDefaultSharedPreferences(ReclamoActivity.this);
-
-                    String city = prefs.getString("city", "");
-                    params.put("sede", city);
-                    return params;
-                }
-            };
-            addToQueue(postRequest);
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
+    protected void onDestroy() {
+        super.onDestroy();
+        // Liberar bitmap para evitar memory leaks
+        if (foto != null && !foto.isRecycled()) {
+            foto.recycle();
+            foto = null;
         }
     }
-
 }

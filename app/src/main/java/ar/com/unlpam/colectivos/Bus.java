@@ -2,17 +2,16 @@ package ar.com.unlpam.colectivos;
 
 import android.graphics.Bitmap;
 
-import java.util.Date;
-
 public class Bus {
-    int id;
-    double latitud;
-    double longitud;
-    String fecha;
-    String alias;
-    String patente;
-    int sentido;
-    Bitmap foto;
+    private int id;
+    private double latitud;
+    private double longitud;
+    private String fecha;
+    private String alias;
+    private String patente;
+    private int sentido;
+    private Bitmap foto;
+    private String imagenBase64;
 
     public Bus(int id, double latitud, double longitud, String fecha, String alias, String patente, int sentido,Bitmap foto) {
         this.id = id;
@@ -87,5 +86,16 @@ public class Bus {
 
     public void setFoto(Bitmap foto) {
         this.foto = foto;
+    }
+
+
+
+
+    public void setImagenBase64(String imagenBase64) {
+        this.imagenBase64 = imagenBase64;
+    }
+
+    public String getImagenBase64() {
+        return imagenBase64;
     }
 }

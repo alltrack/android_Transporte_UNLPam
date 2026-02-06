@@ -1,0 +1,35 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Círculo rojo/naranja -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M24,4C12.95,4 4,12.95 4,24s8.95,20 20,20s20,-8.95 20,-20S35.05,4 24,4z"/>
+
+    <!-- X ojo izquierdo -->
+    <path
+
+        android:strokeColor="#424242"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M13,17 L18,22 M13,22 L18,17"/>
+
+    <!-- X ojo derecho -->
+    <path
+
+        android:strokeColor="#424242"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M30,17 L35,22 M30,22 L35,17"/>
+
+    <!-- Boca ondulada (preocupada) -->
+    <path
+
+        android:strokeColor="#424242"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M16,32 Q20,30 24,32 Q28,34 32,32"/>
+</vector>

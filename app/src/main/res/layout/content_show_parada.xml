@@ -1,152 +1,332 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ParadaShowActivity">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
+        <!-- Contenedor de horarios -->
         <LinearLayout
+            android:id="@+id/horarios_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Lunes -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_lunes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_title_lunes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lunes"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textTitleColor"
+                        android:layout_marginBottom="8dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/txt_text_hs_lunes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#424242"
+                        android:lineSpacingExtra="2dp"
+                        tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Martes -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_martes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_title_martes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Martes"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textTitleColor"
+                        android:layout_marginBottom="8dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/txt_text_hs_martes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#424242"
+                        android:lineSpacingExtra="2dp"
+                        tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Miércoles -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_miercoles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_title_miercoles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Miércoles"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textTitleColor"
+                        android:layout_marginBottom="8dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/txt_text_hs_miercoles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#424242"
+                        android:lineSpacingExtra="2dp"
+                        tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Jueves -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_jueves"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_title_jueves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jueves"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textTitleColor"
+                        android:layout_marginBottom="8dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/txt_text_hs_jueves"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#424242"
+                        android:lineSpacingExtra="2dp"
+                        tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Viernes -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_viernes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_title_viernes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Viernes"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textTitleColor"
+                        android:layout_marginBottom="8dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/txt_text_hs_viernes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#424242"
+                        android:lineSpacingExtra="2dp"
+                        tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Sábado -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_sabado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_title_sabado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sábado"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textTitleColor"
+                        android:layout_marginBottom="8dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/txt_text_hs_sabado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#424242"
+                        android:lineSpacingExtra="2dp"
+                        tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Domingo -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_domingo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_title_domingo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Domingo"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textTitleColor"
+                        android:layout_marginBottom="8dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/txt_text_hs_domingo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#424242"
+                        android:lineSpacingExtra="2dp"
+                        tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <!-- Estado vacío (sin horarios) -->
+        <LinearLayout
+            android:id="@+id/empty_state_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            android:scrollbars="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
+            android:gravity="center"
+            android:padding="48dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_schedule"
+                app:tint="#BDBDBD"
+                android:layout_marginBottom="24dp"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/txt_title_lunes"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Lunes"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
+                android:text="Sin horarios disponibles"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#616161"
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/txt_text_hs_lunes"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Esta parada no tiene horarios configurados"
+                android:textSize="14sp"
+                android:textColor="#9E9E9E"
                 android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txt_title_martes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Martes"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_text_hs_martes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txt_title_miercoles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Miércoles"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_text_hs_miercoles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txt_title_jueves"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Jueves"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_text_hs_jueves"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txt_title_viernes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Viernes"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_text_hs_viernes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txt_title_sabado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Sábado"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_text_hs_sabado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txt_title_domingo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Domingo"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_text_hs_domingo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="12sp" />
+                tools:ignore="HardcodedText" />
         </LinearLayout>
-    </ScrollView>
 
+    </FrameLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ScrollView>

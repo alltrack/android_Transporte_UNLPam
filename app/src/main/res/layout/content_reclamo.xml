@@ -1,196 +1,256 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_google_signin_btn_text_dark_default"
-    android:fillViewport="true">
+    android:background="#F5F5F5"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ReclamoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".ReclamoActivity">
+        android:padding="16dp">
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
+        <!-- Card principal del formulario -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="10dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
 
-            <!-- <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="Reclamo"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20dp"
-            android:textStyle="bold" />
--->
-            <TextView
-                android:id="@+id/textView6"
+            <LinearLayout
+                android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Colectivo"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorAccent"
-                android:textColorLink="@color/colorPrimary"
-                android:textSize="12sp" />
+                android:orientation="vertical"
+                android:padding="20dp">
 
-            <Spinner
-                android:id="@+id/sp_reclamo_colectivos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                <!-- Título -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Reportar incidencia"
+                    android:textSize="20sp"
+                    android:textColor="?attr/textTitleColor"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Estado de la unidad"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorAccent"
-                android:textColorLink="@color/colorPrimary"
-                android:textSize="12sp" />
+                <!-- Colectivo con estilo moderno -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Colectivo"
+                    android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    tools:ignore="HardcodedText">
 
-            <Spinner
-                android:id="@+id/sp_reclamo_estado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                    <AutoCompleteTextView
+                        android:id="@+id/sp_reclamo_colectivos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:padding="16dp"
+                        tools:ignore="LabelFor" />
 
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Desempeño del conductor"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorAccent"
-                android:textColorLink="@color/colorPrimary"
-                android:textSize="12sp" />
+                <!-- Estado de la unidad -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Estado de la unidad"
+                    android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    tools:ignore="HardcodedText">
 
-            <Spinner
-                android:id="@+id/sp_conductor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                    <AutoCompleteTextView
+                        android:id="@+id/sp_reclamo_estado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:padding="16dp"
+                        tools:ignore="LabelFor" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <AutoCompleteTextView
-                    android:id="@+id/txt_reclamo_mensaje"
+                <!-- Desempeño del conductor -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Desempeño del conductor"
+                    android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    tools:ignore="HardcodedText">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/sp_conductor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:padding="16dp"
+                        tools:ignore="LabelFor" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Comentario -->
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Comentario"
-                    android:inputType="text"
-                    android:maxLines="5"
-                    android:singleLine="true"
-                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                    android:textColorLink="@color/colorPrimary" />
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="500"
+                    tools:ignore="HardcodedText">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_reclamo_mensaje"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:maxLength="500"
+                        android:gravity="top|start"
+                        android:padding="16dp"
+                        tools:ignore="VisualLintTextFieldSize" />
 
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card de foto -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
 
-                    <ImageView
-                        android:id="@+id/img_preview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="150dp"
-                        android:adjustViewBounds="true"
-                        android:background="@color/colorAccent"
-                        android:cropToPadding="false"
-                        android:padding="2dp"
-                        android:scaleType="fitCenter"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/colectivo" />
-
-                    <Button
-                        android:id="@+id/btn_delete_foto"
-                        style="?android:textAppearanceSmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/colorAccent"
-                        android:drawableRight="@drawable/ic_cancel"
-                        android:drawablePadding="2dp"
-                        android:paddingRight="10dp"
-                        android:textAlignment="textEnd"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Evidencia fotográfica"
+                        android:textSize="16sp"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:textColor="?attr/textTitleColor"
+                        tools:ignore="HardcodedText" />
+
                 </LinearLayout>
 
+                <!-- Preview de la foto (INICIALMENTE OCULTO - SIN IMAGEN POR DEFECTO) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_preview"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:scaleType="centerCrop"
+                            tools:ignore="ContentDescription" />
+
+                        <Button
+                            android:id="@+id/btn_delete_foto"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Eliminar foto"
+                            android:textColor="@color/coral"
+                            app:icon="@drawable/ic_cancel"
+                            app:iconGravity="start"
+                            app:iconTint="@color/coral"
+                            tools:ignore="HardcodedText" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Botón agregar foto -->
                 <Button
                     android:id="@+id/btn_add_foto"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:text="Agregar Foto"
-                    android:textAlignment="center"
-                    android:textStyle="bold" />
-
+                    android:textColor="?attr/textTitleColor"
+                    app:icon="@drawable/ic_camera"
+                    app:iconGravity="start"
+                    app:iconSize="30dp"
+                    app:iconTint="?attr/colorPrimary"
+                    app:strokeColor="?attr/colorPrimary"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
+        </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
 
-        <LinearLayout
+        <!-- Botón enviar -->
+        <Button
+            android:id="@+id/btn_enviar"
+            style="@style/App_Button_Blue"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom|right"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:text="Enviar Reporte"
+            android:textSize="16sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:icon="@drawable/ic_send"
+            app:iconGravity="start"
+            tools:ignore="HardcodedText" />
 
-            <Button
-                android:id="@+id/btn_enviar"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Ok"
-                android:textAlignment="center"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
     </LinearLayout>
+
 </ScrollView>

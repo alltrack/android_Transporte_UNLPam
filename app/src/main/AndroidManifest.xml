@@ -1,95 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ar.com.unlpam.colectivos">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Queries para abrir Google Maps -->
     <queries>
         <package android:name="com.google.android.apps.maps" />
-    </queries> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    </queries>
 
+
+    <!-- Permisos de red -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Permisos de ubicación -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- ⚠️ Solo si necesitas ubicación en background (probablemente NO) -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> -->
+
+    <!-- Cámara (para fotos en reclamos) -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" android:required="false"/>
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- ⚠️ STORAGE: Solo para API < 33 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29"
+        tools:ignore="ScopedStorage" />
 
+    <!-- ⚠️ STORAGE: Para API 33+ (si guardas/lees imágenes) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
+        tools:ignore="PhotoAndVideoPolicy" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"
+        tools:ignore="PhotoAndVideoPolicy" />
 
-    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- ⚠️ NUEVO: Para API 34+ (Android 14+) - Selected Photos Access -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
-
-    <uses-feature android:name="android.hardware.camera.front" android:required="false"  />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.flash" android:required="false"  />
+    <!-- Features opcionales -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
 
     <application
+        android:name=".GlobalClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.Colectivos"
+        android:usesCleartextTraffic="false"
+        android:requestLegacyExternalStorage="false">
+
+        <!-- ⚠️ Google Maps API Key (UNA SOLA VEZ) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-
+        <!-- Splash Screen -->
         <activity
             android:name=".WelcomeActivity"
-            android:noHistory="true"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.Colectivos.Fullscreen"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+        <!-- Main Activities -->
         <activity
             android:name=".MainActivity"
-            android:label="Mapa"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:exported="false"
+            android:theme="@style/Theme.Colectivos.NoActionBar"
+            android:label="Mapa" />
+
         <activity
             android:name=".ParadasActivity"
-            android:label="Paradas"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:exported="false"
+            android:theme="@style/Theme.Colectivos.NoActionBar"
+            android:label="Paradas" />
+
         <activity
             android:name=".ParadaShowActivity"
+            android:theme="@style/Theme.Colectivos.NoActionBar"
+            android:exported="false"
             android:label="Horarios"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".ParadasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ParadasActivity" />
+        </activity>
+
         <activity
             android:name=".ReclamoActivity"
-            android:label="Como Viajo"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".PhotoVideoRedirectActivity"
-            android:label="Horarios"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".CameraActivity"
-            android:label=""
-            android:screenOrientation="behind"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Colectivos.NoActionBar"
+            android:exported="false"
+            android:label="Como Viajo" />
+
         <activity
             android:name=".PoliticasActivity"
-            android:label="@string/title_activity_politicas"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:exported="false"
+            android:theme="@style/Theme.Colectivos.NoActionBar"
+            android:label="@string/title_activity_politicas" />
+
         <activity
             android:name=".SelectCityActivity"
-            android:label="@string/title_activity_select_city"
-            android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:exported="false"
+            android:theme="@style/Theme.Colectivos.NoActionBar"
+            android:noHistory="true"/>
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

@@ -2,47 +2,49 @@ package ar.com.unlpam.colectivos;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 2000;
-
-
+    private static final int SPLASH_DELAY = 3000; // 3 segundos
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                SharedPreferences prefs = PreferenceManager
-                        .getDefaultSharedPreferences(WelcomeActivity.this);
-                String city = prefs.getString("city", "");
+        // Animación fade-in
+        ImageView logo = findViewById(R.id.imageView);
+        LinearLayout footer = findViewById(R.id.layout_footer);
 
-                if(city.equalsIgnoreCase("")) {
-                    Intent mainIntent = new Intent(WelcomeActivity.this, SelectCityActivity.class);
+        logo.setAlpha(0f);
+        footer.setAlpha(0f);
 
-                    /*SharedPreferences.Editor edit = settings.edit();
-                    edit.putString("city", "SR");
-                    edit.commit();
-                    Intent mainIntent = new Intent(WelcomeActivity.this, MainActivity.class);*/
+        logo.animate().alpha(1f).setDuration(1000).start();
+        footer.animate().alpha(1f).setDuration(1000).setStartDelay(300).start();
 
-                    startActivity(mainIntent);
-                }
-                else{
-                    Intent mainIntent = new Intent(WelcomeActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
-                }
 
-                overridePendingTransition(R.animator.fadein,R.animator.zoom_in);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String city = prefs.getString("city", "");
+
+            Intent intent;
+
+            if (city.isEmpty()) {
+                intent = new Intent(WelcomeActivity.this, SelectCityActivity.class);
+            } else {
+                intent = new Intent(WelcomeActivity.this, MainActivity.class);
             }
-        },SPLASH_TIME_OUT);
+
+            startActivity(intent);
+            finish();
+        }, SPLASH_DELAY);
     }
 }

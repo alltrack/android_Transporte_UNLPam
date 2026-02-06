@@ -1,92 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottomSheetBus"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
-    android:background="#DDFFFFFF"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background"
     android:orientation="vertical"
-    android:weightSum="1"
+    android:paddingTop="8dp"
+    android:paddingBottom="20dp"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="90dp"
+    app:behavior_peekHeight="0dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <!-- Title -->
+    <!-- Handle bar para arrastrar -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bottom_sheet_handle"
+        android:alpha="0.3"/>
+
+    <!-- Header con ícono y datos del bus -->
     <LinearLayout
         android:id="@+id/ly_sh_title"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp">
 
         <ImageView
             android:id="@+id/bsb_bus_img"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            app:srcCompat="@drawable/ic_bus" />
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="10dp"
+            android:background="@drawable/circle_background"
+            app:srcCompat="@drawable/ic_bus"
+            app:tint="@color/purple"
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/bsb_bus_txt_alias"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Movil 11"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="24sp" />
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/bsb_bus_txt_patente"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:text="AS145ES"
-                android:textSize="18sp" />
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patente: AS145ES"
+                android:textSize="15sp"
+                android:textColor="#6B6B6B"
+                android:layout_marginTop="2dp"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
-
     </LinearLayout>
 
+    <!-- Foto del vehículo -->
     <LinearLayout
         android:id="@+id/btn_ver_mas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:gravity="bottom|end"
         android:orientation="vertical"
-        android:textAlignment="viewEnd">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-        <ImageView
-            android:id="@+id/bsb_bus_img_foto"
-            android:layout_width="300dp"
-            android:layout_height="225dp"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            app:srcCompat="@drawable/colectivo" />
-
-        <TextView
-            android:id="@+id/bsb_bus_txt_ultima_posicion"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="0dp"
-            android:text="Ultimo dato, 14/11/2018 10:45:47"
-            android:textAlignment="textEnd"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
 
+            <ImageView
+                android:id="@+id/bsb_bus_img_foto"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/colectivo"
+                tools:ignore="ContentDescription" />
+        </com.google.android.material.card.MaterialCardView>
 
+        <!-- Última posición con ícono -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/info_background"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_schedule"
+                app:tint="#757575"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/bsb_bus_txt_ultima_posicion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:text="Último Registro: 14/11/2018 10:45:47"
+                android:textSize="13sp"
+                android:textColor="#757575"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

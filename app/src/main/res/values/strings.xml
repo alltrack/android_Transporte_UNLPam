@@ -7,7 +7,7 @@
     <string name="title_activity_maps">Map</string>
 
     <!-- Strings related to TITLES activities -->
-    <string name="url_privacidad">http://www.alltrack.com.ar/app/terminos_condiciones.html</string>
+    <string name="url_privacidad">https://www.alltrack.com.ar/app/terminos_condiciones.html</string>
 
 
     <string-array name="estados">
@@ -55,6 +55,5 @@
     <string name="title_activity_politicas">Políticas de Privacidad</string>
 
     <string name="TAG">CRISTIAN APP UNLPAM</string>
-    <string name="title_activity_select_city">SelectCityActivity</string>
     <string name="directory">UNLPam_transporte</string>
 </resources>

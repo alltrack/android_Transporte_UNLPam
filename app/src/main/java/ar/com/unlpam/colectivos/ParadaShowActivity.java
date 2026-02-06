@@ -1,214 +1,183 @@
 package ar.com.unlpam.colectivos;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import androidx.annotation.NonNull;
 
-import org.json.JSONArray;
+import androidx.appcompat.widget.Toolbar;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 public class ParadaShowActivity extends BaseActivity {
 
-    private ViewPager viewPager;
-    private Parada each_parada;
+    private Parada parada;
 
-    public Context ctx;
+    // TextViews de horarios
+    private TextView textLunes, textMartes, textMiercoles, textJueves;
+    private TextView textViernes, textSabado, textDomingo;
+
+    // Cards
+    private View cardLunes, cardMartes, cardMiercoles, cardJueves;
+    private View cardViernes, cardSabado, cardDomingo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_paradas);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setupUI();
+        loadParadaData();
+        displayHorarios();
+    }
+
+    private void setupUI() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ctx = this.getApplicationContext();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
-        Bundle datos = this.getIntent().getExtras();
-        String JSONDefinition = datos.getString("parada");
+        // Inicializar TextViews de horarios
+        textLunes = findViewById(R.id.txt_text_hs_lunes);
+        textMartes = findViewById(R.id.txt_text_hs_martes);
+        textMiercoles = findViewById(R.id.txt_text_hs_miercoles);
+        textJueves = findViewById(R.id.txt_text_hs_jueves);
+        textViernes = findViewById(R.id.txt_text_hs_viernes);
+        textSabado = findViewById(R.id.txt_text_hs_sabado);
+        textDomingo = findViewById(R.id.txt_text_hs_domingo);
+
+        // Inicializar Cards
+        cardLunes = findViewById(R.id.card_lunes);
+        cardMartes = findViewById(R.id.card_martes);
+        cardMiercoles = findViewById(R.id.card_miercoles);
+        cardJueves = findViewById(R.id.card_jueves);
+        cardViernes = findViewById(R.id.card_viernes);
+        cardSabado = findViewById(R.id.card_sabado);
+        cardDomingo = findViewById(R.id.card_domingo);
+    }
+
+    private void displayHorarios() {
+        if (parada == null) return;
+
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        // Arrays paralelos de cards y textos
+        View[] cards = {
+                cardDomingo, cardLunes, cardMartes, cardMiercoles,
+                cardJueves, cardViernes, cardSabado
+        };
+
+        TextView[] texts = {
+                textDomingo, textLunes, textMartes, textMiercoles,
+                textJueves, textViernes, textSabado
+        };
+
+        // Limpiar textos
+        for (TextView text : texts) {
+            text.setText("");
+        }
+
+        boolean hayHorarios = false;
+
+        // Procesar cada horario
+        for (Horario h : parada.getHorarios()) {
+            String horaFormateada = dateFormat.format(h.hora) + " hs.";
+
+            boolean[] diasActivos = {
+                    h.is_domingo,
+                    h.is_lunes,
+                    h.is_martes,
+                    h.is_miercoles,
+                    h.is_jueves,
+                    h.is_viernes,
+                    h.is_sabado
+            };
+
+            for (int i = 0; i < diasActivos.length; i++) {
+                if (diasActivos[i]) {
+                    addHorarioToDia(cards[i], texts[i], horaFormateada);
+                    hayHorarios = true;
+                }
+            }
+        }
+
+        // Mostrar estado vacío si no hay horarios
+        View emptyStateContainer = findViewById(R.id.empty_state_container);
+        View horariosContainer = findViewById(R.id.horarios_container);
+
+        if (hayHorarios) {
+            emptyStateContainer.setVisibility(View.GONE);
+            horariosContainer.setVisibility(View.VISIBLE);
+        } else {
+            emptyStateContainer.setVisibility(View.VISIBLE);
+            horariosContainer.setVisibility(View.GONE);
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void addHorarioToDia(View card, TextView text, String hora) {
+        card.setVisibility(View.VISIBLE);
+
+        if (text.getText().toString().isEmpty()) {
+            text.setText(hora);
+        } else {
+            text.setText(text.getText() + "  |  " + hora);
+        }
+    }
+
+    private void loadParadaData() {
+        Bundle datos = getIntent().getExtras();
+        if (datos == null) {
+            finish();
+            return;
+        }
+
+        String jsonDefinition = datos.getString("parada");
+        if (jsonDefinition == null) {
+            finish();
+            return;
+        }
 
         try {
-            JSONObject each = new JSONObject(JSONDefinition);
-            each_parada = new Parada(each.getInt("id"), each.getDouble("la"), each.getDouble("lo"), each.getString("de"), each.getString("di"), each.getJSONArray("hs"),each.toString());
-
+            JSONObject json = new JSONObject(jsonDefinition);
+            parada = new Parada(
+                    json.getInt("id"),
+                    json.getDouble("la"),
+                    json.getDouble("lo"),
+                    json.getString("de"),
+                    json.getString("di"),
+                    json.getJSONArray("hs"),
+                    json.toString()
+            );
         } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        TextView title_Lu = (TextView) findViewById(R.id.txt_title_lunes);
-        TextView title_Ma = (TextView) findViewById(R.id.txt_title_martes);
-        TextView title_Mi = (TextView) findViewById(R.id.txt_title_miercoles);
-        TextView title_Ju = (TextView) findViewById(R.id.txt_title_jueves);
-        TextView title_Vi = (TextView) findViewById(R.id.txt_title_viernes);
-        TextView title_Sa = (TextView) findViewById(R.id.txt_title_sabado);
-        TextView title_Do = (TextView) findViewById(R.id.txt_title_domingo);
-
-        TextView text_Lu = (TextView) findViewById(R.id.txt_text_hs_lunes);
-        TextView text_Ma = (TextView) findViewById(R.id.txt_text_hs_martes);
-        TextView text_Mi = (TextView) findViewById(R.id.txt_text_hs_miercoles);
-        TextView text_Ju = (TextView) findViewById(R.id.txt_text_hs_jueves);
-        TextView text_Vi = (TextView) findViewById(R.id.txt_text_hs_viernes);
-        TextView text_Sa = (TextView) findViewById(R.id.txt_text_hs_sabado);
-        TextView text_Do = (TextView) findViewById(R.id.txt_text_hs_domingo);
-
-        title_Lu.setVisibility(View.INVISIBLE);
-        title_Ma.setVisibility(View.INVISIBLE);
-        title_Mi.setVisibility(View.INVISIBLE);
-        title_Ju.setVisibility(View.INVISIBLE);
-        title_Vi.setVisibility(View.INVISIBLE);
-        title_Sa.setVisibility(View.INVISIBLE);
-        title_Do.setVisibility(View.INVISIBLE);
-
-        text_Lu.setVisibility(View.INVISIBLE);
-        text_Ma.setVisibility(View.INVISIBLE);
-        text_Mi.setVisibility(View.INVISIBLE);
-        text_Ju.setVisibility(View.INVISIBLE);
-        text_Vi.setVisibility(View.INVISIBLE);
-        text_Sa.setVisibility(View.INVISIBLE);
-        text_Do.setVisibility(View.INVISIBLE);
-
-        DateFormat dateFormat = new SimpleDateFormat("kk:mm");
-
-        for(Horario h:each_parada.getHorarios()){
-            if(h.is_lunes){
-                title_Lu.setVisibility(View.VISIBLE);
-                text_Lu.setVisibility(View.VISIBLE);
-                if (text_Lu.getText().equals(""))
-                    text_Lu.setText(text_Lu.getText() + dateFormat.format(h.hora) + " hs.");
-                else
-                    text_Lu.setText(text_Lu.getText() + "  |  " + dateFormat.format(h.hora) + " hs.");
-            }
-
-            if(h.is_martes){
-                title_Ma.setVisibility(View.VISIBLE);
-                text_Ma.setVisibility(View.VISIBLE);
-                if (text_Ma.getText().equals(""))
-                    text_Ma.setText(text_Ma.getText() + dateFormat.format(h.hora) + " hs.");
-                else
-                    text_Ma.setText(text_Ma.getText() + "  |  " + dateFormat.format(h.hora) + " hs.");
-            }
-
-            if(h.is_miercoles){
-                title_Mi.setVisibility(View.VISIBLE);
-                text_Mi.setVisibility(View.VISIBLE);
-                if (text_Mi.getText().equals(""))
-                    text_Mi.setText(text_Mi.getText() + dateFormat.format(h.hora) + " hs.");
-                else
-                    text_Mi.setText(text_Mi.getText() + "  |  " + dateFormat.format(h.hora) + " hs.");
-            }
-
-            if(h.is_jueves){
-                title_Ju.setVisibility(View.VISIBLE);
-                text_Ju.setVisibility(View.VISIBLE);
-                if (text_Ju.getText().equals(""))
-                    text_Ju.setText(text_Ju.getText() + dateFormat.format(h.hora) + " hs.");
-                else
-                    text_Ju.setText(text_Ju.getText() + "  |  " + dateFormat.format(h.hora) + " hs.");
-            }
-
-            if(h.is_viernes){
-                title_Vi.setVisibility(View.VISIBLE);
-                text_Vi.setVisibility(View.VISIBLE);
-                if (text_Vi.getText().equals(""))
-                    text_Vi.setText(text_Vi.getText() + dateFormat.format(h.hora) + " hs.");
-                else
-                    text_Vi.setText(text_Vi.getText() + "  |  " + dateFormat.format(h.hora) + " hs.");
-            }
-
-            if(h.is_sabado){
-                title_Sa.setVisibility(View.VISIBLE);
-                text_Sa.setVisibility(View.VISIBLE);
-                if (text_Sa.getText().equals(""))
-                    text_Sa.setText(text_Sa.getText() + dateFormat.format(h.hora) + " hs.");
-                else
-                    text_Sa.setText(text_Sa.getText() + "  |  " + dateFormat.format(h.hora) + " hs.");
-            }
-
-            if(h.is_domingo){
-                title_Do.setVisibility(View.VISIBLE);
-                text_Do.setVisibility(View.VISIBLE);
-                if (text_Do.getText().equals(""))
-                    text_Do.setText(text_Do.getText() + dateFormat.format(h.hora) + " hs.");
-                else
-                    text_Do.setText(text_Do.getText() + "  |  " + dateFormat.format(h.hora) + " hs.");
-            }
-
+            Log.e("TRANSPORTE UNLPAM", "Error parseando JSON de paradas", e);
+            finish();
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
-
-
-    //Dibuja las paradas en el mapa.
-    private void showHorario(JSONObject parada) {
-
-    }
-
-
-
-
 }

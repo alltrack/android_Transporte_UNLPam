@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Círculo verde -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M24,4C12.95,4 4,12.95 4,24s8.95,20 20,20s20,-8.95 20,-20S35.05,4 24,4z"/>
+
+    <!-- Check mark (palomita) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,31.17L11.83,23L8.41,26.41L20,38L40,18L36.59,14.59L20,31.17z"/>
+</vector>

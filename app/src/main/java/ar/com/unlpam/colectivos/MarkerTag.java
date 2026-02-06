@@ -2,7 +2,7 @@ package ar.com.unlpam.colectivos;
 
 public class MarkerTag {
     private int id;
-    private String tipo;
+    private final String tipo;
 
     public MarkerTag(int id, String tipo) {
         this.id = id;
@@ -21,7 +21,4 @@ public class MarkerTag {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 }

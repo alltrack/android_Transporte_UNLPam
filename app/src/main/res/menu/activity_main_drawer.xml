@@ -4,28 +4,29 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:title="">
-            <menu>
-                <item
-                    android:id="@+id/nav_mapa"
-                    android:icon="@drawable/ic_map"
-                    android:title="Mapa" />
 
-                <item
-                    android:id="@+id/nav_paradas"
-                    android:icon="@drawable/ic_bus_stop"
-                    android:title="Paradas" />
+            <item
+                android:id="@+id/nav_mapa"
+                android:icon="@drawable/ic_map"
+                android:title="Mapa"
+                tools:ignore="HardcodedText" />
 
-                <item
-                    android:id="@+id/nav_conductor_imprudente"
-                    android:icon="@drawable/ic_conductor"
-                    android:title="Como viajo" />
+            <item
+                android:id="@+id/nav_paradas"
+                android:icon="@drawable/ic_bus_stop"
+                android:title="Paradas"
+                tools:ignore="HardcodedText" />
 
-            </menu>
-        </item>
+            <item
+                android:id="@+id/nav_conductor_imprudente"
+                android:icon="@drawable/ic_conductor"
+                android:title="Como viajo"
+                tools:ignore="HardcodedText" />
+
     </group>
 
-    <item android:title="">
+    <item android:title="Otros"
+        tools:ignore="HardcodedText">
         <menu>
             <item
                 android:id="@+id/nav_politicas"

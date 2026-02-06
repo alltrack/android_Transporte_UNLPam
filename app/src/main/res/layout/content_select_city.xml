@@ -1,60 +1,457 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".WelcomeActivity">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="3dp"
-        android:background="@color/white"
         android:orientation="vertical"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent=".5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".5">
+        android:padding="20dp"
+        android:paddingTop="16dp">
 
-        <TextView
-            android:id="@+id/textView"
+        <!-- Espaciador para evitar que se oculte bajo el toolbar -->
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="40dp"
-            android:text="Seleccione su sede"
-            android:textAlignment="center"
-            android:textStyle="bold" />
+            android:layout_height="?attr/actionBarSize" />
 
-        <ImageButton
-            android:id="@+id/btnSantaRosa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_default"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_santa_rosa"
-            tools:layout_editor_absoluteX="144dp"
-            tools:layout_editor_absoluteY="426dp" />
+        <!-- 1. Agronomía - Santa Rosa -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSantaRosaAgronomia"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/green"
+            app:cardUseCompatPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
 
-        <ImageButton
-            android:id="@+id/btnPico"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_default"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_general_pico"
-            tools:layout_editor_absoluteX="116dp"
-            tools:layout_editor_absoluteY="89dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:src="@drawable/agronomia"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Agronomía"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Santa Rosa"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/outline_arrow_right_24"
+                    android:textColor="@color/gray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 2. Ciencias de la Salud - Santa Rosa -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSantaRosaSalud"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/red"
+            app:cardUseCompatPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:src="@drawable/salud"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cs. de la Salud"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Santa Rosa"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/outline_arrow_right_24"
+                    app:tint="@color/gray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 3. Ciencias Económicas y Jurídicas - Santa Rosa -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSantaRosaEconomica"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginBottom="8dp"
+            app:strokeColor="@color/cyan"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:cardUseCompatPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:src="@drawable/economica"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cs. Económicas y Jurídicas"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Santa Rosa"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/outline_arrow_right_24"
+                    app:tint="@color/gray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 4. Ciencias Humanas - General Pico -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPicoHumanas"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/darkblue"
+            app:cardUseCompatPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:src="@drawable/humanas"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ciencias Humanas"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="General Pico"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/outline_arrow_right_24"
+                    app:tint="@color/gray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 5. Ciencias Naturales y Exactas - Santa Rosa -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSantaRosaNaturales"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginBottom="14dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/yellow"
+            app:cardUseCompatPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:src="@drawable/naturales"
+                     tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cs. Exactas y Naturales"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Santa Rosa"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/outline_arrow_right_24"
+                    app:tint="@color/gray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 6. Ciencias Veterinarias - General Pico -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPicoVeterinaria"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/purple"
+            app:cardUseCompatPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:src="@drawable/veterinaria"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cs. Veterinarias"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="General Pico"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/outline_arrow_right_24"
+                    app:tint="@color/gray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 7. Ingeniería - General Pico -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPicoIngenieria"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/blue"
+            app:cardUseCompatPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:src="@drawable/ingenieria"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ingeniería"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="General Pico"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/outline_arrow_right_24"
+                    app:tint="@color/gray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ScrollView>

@@ -3,50 +3,86 @@ package ar.com.unlpam.colectivos;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-
-import android.view.View;
-import android.widget.ImageButton;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
+import com.google.android.material.card.MaterialCardView;
 
 public class SelectCityActivity extends BaseActivity {
-
-    ImageButton btn_select_pico;
-    ImageButton btn_select_staRosa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_city);
 
-        btn_select_pico = (ImageButton) findViewById(R.id.btnPico);
-        btn_select_staRosa = (ImageButton) findViewById(R.id.btnSantaRosa);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Seleccione una sede...");
+        }
 
-        btn_select_pico.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor edit = settings.edit();
-                edit.putString("city", "GP");
-                edit.commit();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-                Intent mainIntent = new Intent(SelectCityActivity.this, MainActivity.class);
-                startActivity(mainIntent);
-            }
+        // General Pico
+        MaterialCardView cardPicoIngenieria = findViewById(R.id.cardPicoIngenieria);
+        MaterialCardView cardPicoHumanas = findViewById(R.id.cardPicoHumanas);
+        MaterialCardView cardPicoVeterinaria = findViewById(R.id.cardPicoVeterinaria);
+
+        // Santa Rosa
+        MaterialCardView cardSantaRosaAgronomia = findViewById(R.id.cardSantaRosaAgronomia);
+        MaterialCardView cardSantaRosaSalud = findViewById(R.id.cardSantaRosaSalud);
+        MaterialCardView cardSantaRosaEconomica = findViewById(R.id.cardSantaRosaEconomica);
+        MaterialCardView cardSantaRosaNaturales = findViewById(R.id.cardSantaRosaNaturales);
+
+        // Listeners General Pico
+        cardPicoIngenieria.setOnClickListener(v -> {
+            saveSelection(prefs, "GP", "Ingeniería");
+            navigateToMain();
         });
 
-        btn_select_staRosa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor edit = settings.edit();
-                edit.putString("city", "SR");
-                edit.commit();
+        cardPicoHumanas.setOnClickListener(v -> {
+            saveSelection(prefs, "GP", "Ciencias Humanas");
+            navigateToMain();
+        });
 
-                Intent mainIntent = new Intent(SelectCityActivity.this, MainActivity.class);
-                startActivity(mainIntent);
-            }
+        cardPicoVeterinaria.setOnClickListener(v -> {
+            saveSelection(prefs, "GP", "Ciencias Veterinarias");
+            navigateToMain();
+        });
+
+        // Listeners Santa Rosa
+        cardSantaRosaAgronomia.setOnClickListener(v -> {
+            saveSelection(prefs, "SR", "Agronomía");
+            navigateToMain();
+        });
+
+        cardSantaRosaSalud.setOnClickListener(v -> {
+            saveSelection(prefs, "SR", "Ciencias de la Salud");
+            navigateToMain();
+        });
+
+        cardSantaRosaEconomica.setOnClickListener(v -> {
+            saveSelection(prefs, "SR", "Ciencias Económicas y Jurídicas");
+            navigateToMain();
+        });
+
+        cardSantaRosaNaturales.setOnClickListener(v -> {
+            saveSelection(prefs, "SR", "Ciencias Naturales y Exactas");
+            navigateToMain();
         });
     }
+
+    private void saveSelection(SharedPreferences prefs, String city, String faculty) {
+        prefs.edit()
+                .putString("city", city)
+                .putString("faculty", faculty)
+                .apply();
+    }
+
+    private void navigateToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
 }
-
-
