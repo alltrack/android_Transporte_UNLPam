@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="?attr/colorSurface"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -60,15 +61,14 @@
                         android:text="Agronomía"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textSubTitleColor1"
                         tools:ignore="HardcodedText" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Santa Rosa"
-                        android:textSize="13sp"
-                        android:textColor="@color/gray"
+                        android:textColor="?attr/textSubTitleColor2"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -76,7 +76,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/outline_arrow_right_24"
-                    android:textColor="@color/gray"
+                    app:tint="?attr/textSubTitleColor2"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -122,7 +122,7 @@
                         android:text="Cs. de la Salud"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textSubTitleColor1"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -130,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:text="Santa Rosa"
                         android:textSize="13sp"
-                        android:textColor="@color/gray"
+                        android:textColor="?attr/textSubTitleColor2"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -138,7 +138,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/outline_arrow_right_24"
-                    app:tint="@color/gray"
+                    app:tint="?attr/textSubTitleColor2"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -184,7 +184,7 @@
                         android:text="Cs. Económicas y Jurídicas"
                         android:textStyle="bold"
                         android:textSize="17sp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textSubTitleColor1"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -192,7 +192,7 @@
                         android:layout_height="wrap_content"
                         android:text="Santa Rosa"
                         android:textSize="13sp"
-                        android:textColor="@color/gray"
+                        android:textColor="?attr/textSubTitleColor2"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -200,7 +200,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/outline_arrow_right_24"
-                    app:tint="@color/gray"
+                    app:tint="?attr/textSubTitleColor2"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -246,7 +246,7 @@
                         android:text="Ciencias Humanas"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textSubTitleColor1"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -254,7 +254,7 @@
                         android:layout_height="wrap_content"
                         android:text="General Pico"
                         android:textSize="13sp"
-                        android:textColor="@color/gray"
+                        android:textColor="?attr/textSubTitleColor2"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -262,7 +262,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/outline_arrow_right_24"
-                    app:tint="@color/gray"
+                    app:tint="?attr/textSubTitleColor2"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -308,7 +308,7 @@
                         android:text="Cs. Exactas y Naturales"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textSubTitleColor1"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -316,7 +316,7 @@
                         android:layout_height="wrap_content"
                         android:text="Santa Rosa"
                         android:textSize="13sp"
-                        android:textColor="@color/gray"
+                        android:textColor="?attr/textSubTitleColor2"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -324,7 +324,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/outline_arrow_right_24"
-                    app:tint="@color/gray"
+                    app:tint="?attr/textSubTitleColor2"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -370,7 +370,7 @@
                         android:text="Cs. Veterinarias"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textSubTitleColor1"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -378,7 +378,7 @@
                         android:layout_height="wrap_content"
                         android:text="General Pico"
                         android:textSize="13sp"
-                        android:textColor="@color/gray"
+                        android:textColor="?attr/textSubTitleColor2"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -386,7 +386,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/outline_arrow_right_24"
-                    app:tint="@color/gray"
+                    app:tint="?attr/textSubTitleColor2"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -432,7 +432,7 @@
                         android:text="Ingeniería"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textSubTitleColor1"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -440,7 +440,7 @@
                         android:layout_height="wrap_content"
                         android:text="General Pico"
                         android:textSize="13sp"
-                        android:textColor="@color/gray"
+                        android:textColor="?attr/textSubTitleColor2"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -448,7 +448,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/outline_arrow_right_24"
-                    app:tint="@color/gray"
+                    app:tint="?attr/textSubTitleColor2"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

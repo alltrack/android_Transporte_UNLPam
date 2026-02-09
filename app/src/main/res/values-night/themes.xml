@@ -1,0 +1,67 @@
+<resources>
+    <!-- Base application theme DARK -->
+    <style name="Theme.Colectivos" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <!-- Primary OSCURO para toolbar -->
+        <item name="colorPrimary">#1E1E1E</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryVariant">#121212</item>
+
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">#4DD0E1</item>
+        <item name="colorSecondaryVariant">#26C6DA</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- Background oscuro -->
+        <item name="android:colorBackground">#121212</item>
+        <item name="colorOnBackground">#E0E0E0</item>
+
+        <!-- Surface oscura -->
+        <item name="colorSurface">#1E1E1E</item>
+        <item name="colorOnSurface">#E0E0E0</item>
+
+        <item name="colorError">#CF6679</item>
+        <item name="colorOnError">#FFFFFF</item>
+
+        <!-- Button atributos personalizados (MANTIENEN EL AZUL) -->
+        <item name="backgroundButtonColor">#2196F3</item>
+        <item name="onBackgroundButtonColor">#E0E0E0</item>
+        <item name="rippleButtonColor">#64B5F6</item>
+        <item name="textButtonColor">#FFFFFF</item>
+
+        <!-- Toolbar -->
+        <item name="textToolbarColor">#FFFFFF</item>
+        <item name="toolbarStyle">@style/App_Toolbar</item>
+
+        <!-- Status bar OSCURA también -->
+        <item name="android:statusBarColor">#1E1E1E</item>
+
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">#1E1E1E</item>
+
+        <!-- Titles -->
+        <item name="textTitleColor">#64B5F6</item>
+        <item name="textSubTitleColor1">#E0E0E0</item>
+        <item name="textSubTitleColor2">#64B5F6</item>
+
+        <item name="android:windowLayoutInDisplayCutoutMode">never</item>
+
+    </style>
+
+    <style name="Theme.Colectivos.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Colectivos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Colectivos.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="Theme.Colectivos.Fullscreen" parent="Theme.Colectivos">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

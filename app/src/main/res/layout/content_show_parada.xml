@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="?attr/colorSurface"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ParadaShowActivity">
 
@@ -53,7 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="#424242"
+                        android:textColor="?attr/textSubTitleColor1"
                         android:lineSpacingExtra="2dp"
                         tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
                 </LinearLayout>
@@ -91,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="#424242"
+                        android:textColor="?attr/textSubTitleColor1"
                         android:lineSpacingExtra="2dp"
                         tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
                 </LinearLayout>
@@ -129,7 +130,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="#424242"
+                        android:textColor="?attr/textSubTitleColor1"
                         android:lineSpacingExtra="2dp"
                         tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
                 </LinearLayout>
@@ -167,7 +168,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="#424242"
+                        android:textColor="?attr/textSubTitleColor1"
                         android:lineSpacingExtra="2dp"
                         tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
                 </LinearLayout>
@@ -205,7 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="#424242"
+                        android:textColor="?attr/textSubTitleColor1"
                         android:lineSpacingExtra="2dp"
                         tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
                 </LinearLayout>
@@ -243,7 +244,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="#424242"
+                        android:textColor="?attr/textSubTitleColor1"
                         android:lineSpacingExtra="2dp"
                         tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
                 </LinearLayout>
@@ -281,7 +282,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="#424242"
+                        android:textColor="?attr/textSubTitleColor1"
                         android:lineSpacingExtra="2dp"
                         tools:text="07:00 hs.  |  10:00 hs.  |  13:00 hs." />
                 </LinearLayout>
@@ -313,7 +314,7 @@
                 android:text="Sin horarios disponibles"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#616161"
+                android:textColor="?attr/textSubTitleColor2"
                 android:layout_marginBottom="8dp"
                 tools:ignore="HardcodedText" />
 
@@ -322,7 +323,7 @@
                 android:layout_height="wrap_content"
                 android:text="Esta parada no tiene horarios configurados"
                 android:textSize="14sp"
-                android:textColor="#9E9E9E"
+                android:textColor="?attr/textSubTitleColor2"
                 android:textAlignment="center"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
